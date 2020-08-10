@@ -3,11 +3,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True)
-    phone=models.CharField(max_length=30)
+    email = models.EmailField()
+    phone=models.CharField(max_length=30,unique=True)
 
     groups = None
     user_permissions = None
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []

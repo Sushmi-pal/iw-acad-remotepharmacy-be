@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User=get_user_model()
 
 class LoginForm(forms.Form):
-    email=forms.EmailField()
+    phone=forms.CharField(max_length=30)
     password=forms.CharField(max_length=150,widget=forms.PasswordInput())
 
 class RegisterForm(forms.Form):
@@ -12,7 +12,7 @@ class RegisterForm(forms.Form):
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
     email = forms.CharField(max_length=128)
-    phone=forms.CharField(max_length=30)
+    phone = forms.CharField(max_length=30)
     password = forms.CharField(max_length=128, widget=forms.PasswordInput())
     confirm_password = forms.CharField(max_length=128, widget=forms.PasswordInput())
 
@@ -20,6 +20,13 @@ class RegisterForm(forms.Form):
         if User.objects.filter(username=self.cleaned_data['username']).exists():
             raise forms.ValidationError('This username is taken')
         return self.cleaned_data['username']
+
+
+    def clean_phone(self):
+        if User.objects.filter(phone=self.cleaned_data['phone']).exists():
+            raise forms.ValidationError('This number is already taken')
+        return self.cleaned_data['phone']
+
 
     def clean(self):
         password = self.cleaned_data['password']

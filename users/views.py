@@ -9,7 +9,7 @@ def LoginView(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user = authenticate(email=form.cleaned_data['email'],
+            user = authenticate(phone=form.cleaned_data['phone'],
                                 password=form.cleaned_data['password'])
             if user:
                 print('user', user)
@@ -31,7 +31,8 @@ def RegisterView(request):
             user = User(phone=form.cleaned_data['phone'],
                         first_name=form.cleaned_data['first_name'],
                         last_name=form.cleaned_data['last_name'],
-                        username=form.cleaned_data['username'])
+                        username=form.cleaned_data['username'],
+                        email=form.cleaned_data['email'])
             user.save()
             user.set_password(form.cleaned_data['password'])
             user.save()
