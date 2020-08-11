@@ -10,4 +10,4 @@ class User(AbstractUser):
     user_permissions = None
 
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
