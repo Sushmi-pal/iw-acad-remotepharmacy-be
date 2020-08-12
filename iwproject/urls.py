@@ -19,6 +19,7 @@ from django.contrib.auth import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('myapi.urls')),
     path('users/', include('users.urls', namespace='users')),
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     path('password_reset/', views.PasswordResetView.as_view(), name='password_reset'),
