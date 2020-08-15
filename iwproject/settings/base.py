@@ -35,6 +35,11 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'myapi.apps.MyapiConfig',
+    'datahandle',
+    'rest_framework'
+
+
+    'myapi.apps.MyapiConfig',
     'rest_framework',
 ]
 
