@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls', namespace='users')),
+    path('api/',include('myapi.urls')),
     path('datahandle/',include('datahandle.urls')),
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     path('password_reset/', views.PasswordResetView.as_view(), name='password_reset'),
