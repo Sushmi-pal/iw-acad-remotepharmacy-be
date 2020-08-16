@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import UserSerializer
-from .models import User
+from django.contrib.auth import get_user_model
+User=get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('name')
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
 from django.shortcuts import render
 from datahandle.models import Product,Category
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import CategorySerializer,ProductSerializer
+from datahandle.serializers import CategorySerializer,ProductSerializer
 from datahandle.models import Product,Order,Cart,Category
 from django.contrib.auth import get_user_model
 User=get_user_model()
@@ -126,20 +127,6 @@ def info_view_prodindividual(request,pk):
         serializer=CategorySerializer(instance=content)
 
         return Response(serializer.data)
-
-def TotalPrice(request,user_id):
-    user=User.objects.get(id=user_id)
-    cartuser=user.cart_set.all()
-    orderlist=[]
-    for i in cartuser:
-        orderlist.append[i.order_set.all()]
-    countoforder=len(orderlist)
-    loopcontroller=0
-    sum=0
-    while loopcontroller < len(countoforder):
-        sum=sum+int(countoforder[loopcontroller].prod.price)
-        s=s+1
-    return render(request,'',{'sum':sum})
 
 
 
