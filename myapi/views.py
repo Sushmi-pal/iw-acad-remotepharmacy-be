@@ -9,6 +9,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
+
+
 from django.shortcuts import render
 from datahandle.models import Product,Category
 from rest_framework.decorators import api_view
