@@ -25,5 +25,5 @@ urlpatterns = [
     # path('generic/products/update/<int:pk>',ProductRetrieveUpdateView.as_view()),
     path('generic/products/updatedetail/<int:pk>',ProductRetrieveUpdateView.as_view()),
     path('login/',UserLoginCreateView.as_view()),
-    path('logout/',UserLogoutView)
+    path('logout/',UserLogoutView.as_view())
 ]
