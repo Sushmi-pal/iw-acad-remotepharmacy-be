@@ -1,12 +1,14 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView,RetrieveUpdateAPIView
-from .serializers import UserRegisterSerializer,ProductSerializer,UserLoginSerializer
-from datahandle.models import Product
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,\
+    DestroyAPIView, RetrieveAPIView,RetrieveUpdateAPIView
+from .serializers import UserRegisterSerializer,ProductSerializer,UserLoginSerializer,CategorySerializer
+from datahandle.models import Product,Category
 from django.contrib.auth import login as django_login,logout as django_logout
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
-
+from rest_framework.permissions import IsAuthenticated
+from myapi.permissions import IsSuperUser
 class UserRegisterCreateAPIView(CreateAPIView):
     serializer_class=UserRegisterSerializer
 
@@ -30,9 +32,40 @@ class ProductsListView(ListAPIView):
     serializer_class= ProductSerializer
     queryset=Product.objects.all()
 
-class ProductRetrieveUpdateView(RetrieveUpdateAPIView):
+
+class ProductRetrieveView(RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    
 
-    
+
+class ProductUpdateView(UpdateAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+    authentication_classes=[TokenAuthentication,]
+    permission_classes=[IsSuperUser, ]
+
+class ProductCreateAPIView(CreateAPIView):
+    serializer_class=ProductSerializer
+    authentication_classes=[TokenAuthentication,]
+    permission_classes=[IsSuperUser, ]
+
+class ProductDeleteAPIView(DestroyAPIView):
+    serializer_class=ProductSerializer
+    queryset = Product.objects.all()
+    authentication_classes=[TokenAuthentication,]
+    permission_classes=[IsSuperUser, ]
+
+class CategoryCreateAPIView(CreateAPIView):
+    serializer_class=CategorySerializer
+    authentication_classes=[TokenAuthentication,]
+    permission_classes=[IsSuperUser, ]
+
+class CategoryDeleteAPIView(DestroyAPIView):
+    serializer_class=CategorySerializer
+    queryset = Category.objects.all()
+    authentication_classes=[TokenAuthentication,]
+    permission_classes=[IsSuperUser, ]
+
+class CategoryListView(ListAPIView):
+    serializer_class= CategorySerializer
+    queryset=Category.objects.all()

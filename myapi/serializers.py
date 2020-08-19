@@ -71,7 +71,7 @@ class CategorySerializer(serializers.ModelSerializer):
     # products = serializers.StringRelatedField(many=True,read_only=True)
     class Meta:
         model = Category
-        fields = ('name','products')
+        fields = ['id','name','products']
 
 
 
