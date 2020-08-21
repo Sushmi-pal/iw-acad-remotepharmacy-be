@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'datahandle',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
+
     
 ]
 

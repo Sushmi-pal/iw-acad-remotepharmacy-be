@@ -15,6 +15,7 @@ from .generic_views import UserRegisterCreateAPIView,\
 
 
 
+
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -24,14 +25,14 @@ urlpatterns = [
     path('categories/delete/<int:pk>',CategoryDeleteAPIView.as_view()),
     path('products/',info_product_view),
     path('products/<int:pk>',info_view_prodindividual),
-    # path('login/',obtain_auth_token),
     path('register/',UserRegisterCreateAPIView.as_view()),
     path('generic/products/',ProductsListView.as_view()),
     path('generic/products/create/',ProductCreateAPIView.as_view()),
-    # path('generic/products/update/<int:pk>',ProductRetrieveUpdateView.as_view()),
     path('generic/products/detail/<int:pk>',ProductRetrieveView.as_view()),
     path('generic/products/delete/<int:pk>',ProductDeleteAPIView.as_view()),
     path('generic/products/update/<int:pk>',ProductUpdateView.as_view()),
     path('login/',UserLoginCreateView.as_view()),
-    path('logout/',UserLogoutView.as_view())
-]
+    path('logout/',UserLogoutView.as_view()),
+    # path('users/update/<int:pk>',UserUpdateInfoView.as_view())
+
+    ]

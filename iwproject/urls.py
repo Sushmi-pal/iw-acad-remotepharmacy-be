@@ -19,16 +19,17 @@ from django.contrib.auth import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls', namespace='users')),
     path('api/',include('myapi.urls')),
-    path('datahandle/',include('datahandle.urls')),
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
-    path('password_reset/', views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
+    # path('password_reset/', views.PasswordResetView.as_view(), name='password_reset'),
+    # path('password_reset/done/', views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'), name='password_reset_done'),
+    # path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    # path('reset/done/', views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

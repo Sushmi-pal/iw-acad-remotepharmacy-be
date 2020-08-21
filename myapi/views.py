@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import UserSerializer
+from rest_framework.filters import SearchFilter,OrderingFilter
 from django.contrib.auth import get_user_model
 User=get_user_model()
-
+from .pagination import MyLimitOffsetPagination
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
+    pagination_class = MyLimitOffsetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['username']
+    order_fields = ['name', 'id']
 
 
 
