@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'myapi.apps.MyapiConfig',
     'datahandle',
     'rest_framework',
+    'rest_framework.authtoken',
+    'django_rest_passwordreset',
+
+    
 ]
 
 MIDDLEWARE = [

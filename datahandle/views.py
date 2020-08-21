@@ -13,6 +13,21 @@ from django.contrib import messages
 User = get_user_model()
 
 
+
+def TotalPrice(request,user_id):
+    user=User.objects.get(id=user_id)
+    cartuser=user.cart_set.all()
+    orderlist=[]
+    for i in cartuser:
+        orderlist.append[i.order_set.all()]
+    countoforder=len(orderlist)
+    loopcontroller=0
+    sum=0
+    while loopcontroller < len(countoforder):
+        sum=sum+int(countoforder[loopcontroller].prod.price)
+        s=s+1
+    return render(request,'',{'sum':sum})
+
 @api_view(['GET'])
 def info_view_cat(request, pk):
     if request.method == 'GET':
@@ -56,14 +71,12 @@ def info_view_cat(request, pk):
 
         return Response(serializer.data)
 
-
 @api_view(['GET'])
 def info_view(request):
     if request.method=='GET':
         queryset=Category.objects.all()
         serializer=CategorySerializer(instance=queryset,many=True)
         return Response(serializer.data)
-
 
 @api_view(['GET'])
 def info_product_view(request):
@@ -76,7 +89,6 @@ def info_product_view(request):
         serializer=ProductSerializer(instance=queryset,many=True)
 
         return Response(serializer.data)
-
 
 @api_view(['GET'])
 def info_view_prod(request,pk):
