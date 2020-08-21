@@ -23,16 +23,18 @@ class Product(models.Model):
         return self.name
 
 
+class Cart(models.Model):
+    usercart = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+
 class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-
+    order_in_cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     num_of_items_purchased = models.IntegerField()
     prod = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 
-class Cart(models.Model):
-    usercart = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
-    order_in_cart = models.ForeignKey(Order, on_delete=models.CASCADE)
+
 
 
 
