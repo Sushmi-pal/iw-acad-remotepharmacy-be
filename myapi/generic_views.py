@@ -2,6 +2,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,\
     DestroyAPIView, RetrieveAPIView,RetrieveUpdateAPIView
 from .serializers import UserRegisterSerializer,ProductSerializer,UserLoginSerializer,\
     CategorySerializer
+    # UserUpdateInfoSerializer
 from rest_auth.serializers import  PasswordResetSerializer,PasswordResetConfirmSerializer
 from datahandle.models import Product,Category
 from django.contrib.auth import login as django_login,logout as django_logout
@@ -25,6 +26,8 @@ class UserRegisterCreateAPIView(CreateAPIView):
     serializer_class=UserRegisterSerializer
 
 
+    
+
 class UserLoginCreateView(APIView):
     def post(self,request):
         serializer=UserLoginSerializer(data=request.data)
@@ -37,6 +40,7 @@ class UserLoginCreateView(APIView):
 class UserLogoutView(APIView):
     authentication_classes=(TokenAuthentication,)
     def post(self,request):
+        
         django_logout(request)
         return Response(status=204)
 
@@ -80,9 +84,12 @@ class ProductsListView(ListAPIView):
 
 
 
+
+
 class ProductRetrieveView(RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    
 
 
 class ProductUpdateView(UpdateAPIView):
@@ -125,6 +132,11 @@ class CategoryListView(ListAPIView):
 
 
 
+# class UserUpdateInfoView(UpdateAPIView):
+#     serializer_class=UserUpdateInfoSerializer
+#     queryset=User.objects.all()
+#     authentication_classes=[TokenAuthentication,]
+#     permission_classes=[IsLoggedInUser,]
 
 
 

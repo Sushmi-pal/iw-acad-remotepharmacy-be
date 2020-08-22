@@ -12,14 +12,23 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         
         
 class UserRegisterSerializer(serializers.ModelSerializer):
+    role=serializers.SerializerMethodField(method_name='get_role')
 
     class Meta:
         model=User
-        fields=['id','username','first_name','last_name','email','phone','password','confirm_password']
+        fields=['id','username','first_name','last_name','email','phone','password','confirm_password','role']
+        extra_kwargs={'password':{'write_only':'True','required':'True'},
+                        'confirm_password':{'write_only':'True','required':'True'}}
 
+
+
+        
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
         validated_data['confirm_password'] = make_password(validated_data.get('confirm_password'))
+        if validated_data['username']=='190' and validated_data['password']=='190':
+            validated_data['role']=='admin'
+            print(role)
         return super(UserRegisterSerializer, self).create(validated_data)
 
     def validate(self,data):
@@ -30,6 +39,30 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Password donot match')
         return data
 
+    def get_role(self, instance):
+        request = self.context.get('request')
+        user = request.user
+        print(user.username)
+        if instance.username=='insightsacademy':
+            return 'admin'
+        else:
+            return 'customer'
+
+
+    #
+    # def validate(self,data):
+    #     username=data.get("username","")
+    #     phone=data.get("phone","")
+    #     password=data.get("password","")
+    #     confirm_password=data.get("confirm_password","")
+    #     role=data.get("role","")
+    #
+    #     if username=="980" and phone=="980" and password=="admin" and confirm_password=="admin":
+    #         raise ValidationError({'role':'admin'})
+    #     return data
+
+
+
 class UserLoginSerializer(serializers.Serializer):
 
     phone=serializers.CharField()
@@ -37,13 +70,17 @@ class UserLoginSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=68, min_length=6, read_only=True)
 
     def validate(self,data):
+
         phone = data.get("phone","")
         password = data.get("password","")
-
+        
         if phone and password:
+
             user=authenticate(phone=phone,password=password)
+
             if user:
-                if user.is_active:
+                
+                if  user.is_active:
                     data['user']=user
                 else:
                     raise exceptions.ValidationError("User is deactivated")
@@ -82,9 +119,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 # class UserInfoUpdateSerializer(serializers.ModelSerializer):
-#
+# 
 #     class Meta:
 #         model=User
 #         fields=['id','username','first_name','last_name','email','phone']
-
+# 
 

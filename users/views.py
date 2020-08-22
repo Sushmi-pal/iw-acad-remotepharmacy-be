@@ -54,3 +54,8 @@ def MainView(request):
 def LogoutView(request):
     logout(request)
     return redirect('/users/login/')
+
+def adminorcustomer(request):
+    if request.user.username=='121' and request.user.phone=='121':
+        request.user.role=='admin'
+        return request.user.role
