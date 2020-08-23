@@ -11,7 +11,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
 
-        if self.username =='queue':
+        if self.username =='insightsacad':
             self.role='admin'
             print(self.role)
         super(User,self).save(*args, **kwargs)
