@@ -30,7 +30,7 @@ Remote pharmacy is an online medicine ordering portal for a pharmacy where custo
 
    python manage.py startapp newapp
    
-6. For the mediaa files in settings.py
+6. For the media files in settings.py
 
    MEDIA_ROOT=os.path.join(BASE_DIR,'media')
    MEDIA_URL='/media/'
@@ -38,3 +38,17 @@ Remote pharmacy is an online medicine ordering portal for a pharmacy where custo
    in urls.py
    if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+7. For the custom user model, create a new app named users where the User model will be inherited from AbstractUser. In order to log in from 
+    the phone number, the username field is changed to phone i.e. USERNAME_FIELD = 'phone'.
+    
+8. In order to communicate with frontend, Django Rest Framework is used. Install Postman for the simplicity.
+
+9. Use serializers.py to allow complex data such as querysets and model instances to be converted to native Python datatypes that can then be easily rendered into JSON and also for validation.
+
+10. For viewing the data in API format in Postman or in Browsable API, use concept of generics_views or simply views.
+
+11. Role of users is classified into customers and admin. By default, all the users are customers. The user is assigned as an admin under some conditions.
+
+
+    
