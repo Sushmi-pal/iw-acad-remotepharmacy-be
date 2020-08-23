@@ -136,6 +136,16 @@ def info_view_prodindividual(request,pk):
         return Response(serializer.data)
 
 
-
+# @api_view(['POST'])
+# def UserRegisterCreateAPIView(request):
+#     if request.method=='POST':
+#         s=UserRegisterSerializer(data=request.data)
+#         if s.is_valid():
+#             s.save()
+#             return Response(s.data, status=201)
+#         else:
+#             return Response(s.data,status=203)
+#     else:
+#         return Response("",status=404)
 
 

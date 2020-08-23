@@ -8,10 +8,11 @@ router.register(r'users', views.UserViewSet)
 # router.register(r'products', views.ProductViewSet)
 from django.urls import path
 from datahandle.views import info_view,info_view_cat,info_product_view,info_view_prod,info_view_prodindividual
-from .generic_views import (UserRegisterCreateAPIView, 
+from .generic_views import (UserRegisterCreateAPIView,
                             ProductsListView,ProductRetrieveView, ProductUpdateView, 
     UserLoginCreateView,UserLogoutView, ProductCreateAPIView,ProductDeleteAPIView,
     CategoryCreateAPIView,CategoryDeleteAPIView,CategoryListView)
+
     
 
 

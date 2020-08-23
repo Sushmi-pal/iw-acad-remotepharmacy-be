@@ -9,11 +9,14 @@ class User(AbstractUser):
     confirm_password=models.CharField(max_length=128,null=True)
     role=models.CharField(max_length=10,default='customer')
 
-    def save(self, username, role):
-        if username=='121':
-            role=='admin'
+    def save(self, *args, **kwargs):
 
-        super(User, self).save(username, role,force_insert=False)
+        if self.username =='queue':
+            self.role='admin'
+            print(self.role)
+        super(User,self).save(*args, **kwargs)
+
+
 
     groups = None
     user_permissions = None

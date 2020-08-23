@@ -8,11 +8,11 @@ User=get_user_model()
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id','username','first_name','last_name','email','phone']
+        fields = ['id','username','first_name','last_name','email','phone','role']
         
         
 class UserRegisterSerializer(serializers.ModelSerializer):
-    role=serializers.SerializerMethodField(method_name='get_role')
+    # role=serializers.SerializerMethodField(method_name='get_role')
 
     class Meta:
         model=User
@@ -39,14 +39,23 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Password donot match')
         return data
 
-    def get_role(self, instance):
-        request = self.context.get('request')
-        user = request.user
-        print(user.username)
-        if instance.username=='insightsacademy':
-            return 'admin'
-        else:
-            return 'customer'
+    # def get_role(self, instance):
+    #     request = self.context.get('request')
+    #     user = request.user
+    #     print(user.username)
+    #     if instance.username=='queue':
+    #         instance.role=='admin'
+    #         instance.save()
+    #
+    #
+    #         return 'admin'
+    #     else:
+    #         return 'customer'
+
+    def update(self, **kwargs):
+        instance = super().save(**kwargs)
+        self.get_role(instance)
+        instance.save()
 
 
     #

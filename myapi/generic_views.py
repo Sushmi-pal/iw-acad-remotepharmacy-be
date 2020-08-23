@@ -26,6 +26,9 @@ class UserRegisterCreateAPIView(CreateAPIView):
     serializer_class=UserRegisterSerializer
 
 
+
+
+
     
 
 class UserLoginCreateView(APIView):
