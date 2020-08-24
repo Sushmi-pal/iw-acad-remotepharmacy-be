@@ -11,7 +11,7 @@ from datahandle.views import info_view,info_view_cat,info_product_view,info_view
 from .generic_views import (UserRegisterCreateAPIView,
                             ProductsListView,ProductRetrieveView,UserLoginCreateView,
                             UserLogoutView, ProductCreateAPIView,CategoryCreateAPIView,CategoryListView)
-from .views import product_delete,product_update,category_delete
+from .views import product_delete,product_update,category_delete,userprofile_update
     
 
 
@@ -20,6 +20,7 @@ from .views import product_delete,product_update,category_delete
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('users/update/<int:pk>',userprofile_update),
     path('categories/<int:pk>/',info_view_cat),
     path('categories/',CategoryListView.as_view()),
     path('categories/create/',CategoryCreateAPIView.as_view()),

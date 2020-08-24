@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserInfoUpdateSerializer
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django.contrib.auth import get_user_model
 User=get_user_model()
@@ -20,12 +20,13 @@ from django.shortcuts import render
 from datahandle.models import Product,Category
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication,SessionAuthentication
 from myapi.permissions import IsSuperUser
 from rest_framework.response import Response
 from rest_framework import status
 from datahandle.serializers import CategorySerializer,ProductSerializer
 from datahandle.models import Product,Order,Cart,Category
+from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 User=get_user_model()
 # Create your views here.
@@ -216,3 +217,28 @@ def category_delete(request, pk):
         else:
             data['error'] = 'Delete failed'
         return Response(data=data)
+
+
+# For updating user information
+@api_view(['PATCH',])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def userprofile_update(request, pk):
+
+    try:
+        token = Token.objects.get(user=request.user)
+        userid=request.user.id
+        user=User.objects.get(pk=pk)
+        t= token.user_id
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        if userid==t:
+            serializer=UserInfoUpdateSerializer(user,data=request.data,partial=True)
+            data = {}
+            if serializer.is_valid():
+                serializer.save()
+                data['success'] = 'User Profile updated successfully'
+                return Response(data=data)
+        return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
