@@ -18,8 +18,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 from django.shortcuts import render
 from datahandle.models import Product,Category
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,authentication_classes,permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from myapi.permissions import IsSuperUser
 from rest_framework.response import Response
+from rest_framework import status
 from datahandle.serializers import CategorySerializer,ProductSerializer
 from datahandle.models import Product,Order,Cart,Category
 from django.contrib.auth import get_user_model
@@ -149,3 +153,66 @@ def info_view_prodindividual(request,pk):
 #         return Response("",status=404)
 
 
+@api_view(['DELETE', ])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsSuperUser])
+def product_delete(request,pk):
+    try:
+        product=Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method=='DELETE':
+        operation=product.delete()
+        data={}
+        if operation:
+            data['success']='Deleted successfully'
+        else:
+            data['error']='Delete failed'
+        return Response(data=data)
+
+@api_view(['PUT', 'PATCH',])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsSuperUser])
+def product_update(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer=ProductSerializer(product,data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'Updated successfully'
+            return Response(data=data)
+        return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        serializer=ProductSerializer(product,data=request.data,partial=True)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'Updated successfully'
+            return Response(data=data)
+        return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['DELETE', ])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsSuperUser])
+def category_delete(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        operation = category.delete()
+        data = {}
+        if operation:
+            data['success'] = 'Deleted successfully'
+        else:
+            data['error'] = 'Delete failed'
+        return Response(data=data)

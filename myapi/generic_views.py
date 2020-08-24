@@ -19,17 +19,13 @@ from myapi.permissions import IsSuperUser
 from .pagination import MyLimitOffsetPagination
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework import generics, mixins, permissions
+from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 User=get_user_model()
 
 class UserRegisterCreateAPIView(CreateAPIView):
     serializer_class=UserRegisterSerializer
 
-
-
-
-
-    
 
 class UserLoginCreateView(APIView):
     def post(self,request):
@@ -38,14 +34,15 @@ class UserLoginCreateView(APIView):
         user=serializer.validated_data['user']
         django_login(request,user)
         token, created= Token.objects.get_or_create(user=user)
-        return Response({'token':token.key,'id': token.user_id},status=200)
+        return Response({'token':token.key,'id': token.user_id,'success':'You are logged in successfully'},status=200,
+                        )
 
 class UserLogoutView(APIView):
     authentication_classes=(TokenAuthentication,)
     def post(self,request):
         
         django_logout(request)
-        return Response(status=204)
+        return Response({'logout':'You are logged out'},status=204)
 
 # class UserUpdateInfoView(generics.UpdateAPIView):
 #     def get_obj(self):
@@ -105,6 +102,9 @@ class ProductCreateAPIView(CreateAPIView):
     serializer_class=ProductSerializer
     authentication_classes=[TokenAuthentication,]
     permission_classes=[IsSuperUser, ]
+
+    def valid(self):
+        return JsonResponse({'foo': 'bar'})
 
 
 
