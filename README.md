@@ -50,5 +50,15 @@ Remote pharmacy is an online medicine ordering portal for a pharmacy where custo
 
 11. Role of users is classified into customers and admin. By default, all the users are customers. The user is assigned as an admin under some conditions.
 
+12. In order to display messages after logged in, logged out, changes in products and categories view, Response should be imported.
+    
+    from rest_framework.response import Response
+    
+13. For deleting the images from media folder when the admin updates or deletes the products,
+    
+    import os
+    os.remove(product.image.path), where product is the object of Product to which the admin wants either to delete or update.   
+
+
 
     
