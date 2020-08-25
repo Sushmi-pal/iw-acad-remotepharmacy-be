@@ -10,7 +10,20 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import View
 from django.shortcuts import redirect
 from django.contrib import messages
+from rest_framework import viewsets
+from .serializers import CartSerializer, OrderSerializer
+from .models import Cart
 User = get_user_model()
+
+
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all().order_by('id')
+    serializer_class = CartSerializer
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all().order_by('id')
+    serializer_class = OrderSerializer
 
 
 @api_view(['GET'])

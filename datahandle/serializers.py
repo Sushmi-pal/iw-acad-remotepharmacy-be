@@ -22,11 +22,11 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ['username', 'item', 'quantity', 'created_date']
+        fields = ('id', 'item', 'quantity', 'created')
 
 
 class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['username', 'item', 'quantity', 'date', 'order_in_cart', 'ordered']
+        fields = ('id', 'date',  'order_in_cart', 'quantity', 'item',  'ordered')

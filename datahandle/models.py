@@ -40,12 +40,12 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     order_in_cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    num_of_items_purchased = models.IntegerField()
-    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return self.user.phone
 
 
 
