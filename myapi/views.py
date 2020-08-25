@@ -153,21 +153,26 @@ def info_view_prodindividual(request,pk):
 #     else:
 #         return Response("",status=404)
 
-
+import os
 @api_view(['DELETE', ])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsSuperUser])
 def product_delete(request,pk):
     try:
         product=Product.objects.get(pk=pk)
+
     except Product.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method=='DELETE':
         operation=product.delete()
+
+        os.remove(product.image.path)
+
         data={}
         if operation:
-            data['success']='Deleted successfully'
+            data['success']='Deleted Successfully'
+
         else:
             data['error']='Delete failed'
         return Response(data=data)
@@ -182,6 +187,7 @@ def product_update(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
+        os.remove(product.image.path)
         serializer=ProductSerializer(product,data=request.data)
         data = {}
         if serializer.is_valid():
@@ -191,6 +197,7 @@ def product_update(request, pk):
         return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PATCH':
+        os.remove(product.image.path)
         serializer=ProductSerializer(product,data=request.data,partial=True)
         data = {}
         if serializer.is_valid():
