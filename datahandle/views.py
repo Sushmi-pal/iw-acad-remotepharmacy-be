@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from .serializers import CategorySerializer,ProductSerializer
 from .models import Product,Order,Cart,Category
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 User=get_user_model()
 # Create your views here.
-
+import json
 
 def TotalPrice(request,user_id):
     user=User.objects.get(id=user_id)
@@ -25,6 +26,7 @@ def TotalPrice(request,user_id):
 
 @api_view(['GET'])
 def info_view_cat(request,pk):
+
     if request.method=='GET':
         try:
             obj=Category.objects.get(id=pk)
@@ -33,22 +35,24 @@ def info_view_cat(request,pk):
             for i in catprod:
                 b.append(i)
 
-            def produ():
+            # def produ():
 
-                d=dict()
-                l=[]
-                for j in b:
-                    d.update({'name':j.name ,
-                              'desc':j.desc,
-                              'image':j.image,
-                              'price':j.price,
-                              'in_stock':j.in_stock
-                              },)
-                    l.append(d)
-                return l
+            d=dict()
+            l=[]
+            for j in b:
+                d.update({'name':j.name ,
+                            'desc':j.desc,
+                            'image':j.image.url,
+                            'price':j.price,
+                            'in_stock':j.in_stock
+                            },)
+                l.append(d)
+
+                # return l
+
             content={
 
-                'name':produ,
+                'name':l,
 
 
 
@@ -62,9 +66,11 @@ def info_view_cat(request,pk):
         # for i in ram:
         #     serializer = InfoSerializer(instance=i)
         #     result.append(serializer.data)
-        serializer=CategorySerializer(instance=content)
+        # serializer=CategorySerializer(instance=content)
+        # print(serializer.data)
 
-        return Response(serializer.data)
+        return JsonResponse(content)
+
 
 @api_view(['GET'])
 def info_view(request):

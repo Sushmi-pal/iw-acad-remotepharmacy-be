@@ -15,7 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
     order_fields = ['name', 'id']
 
 
-
+import json
 from django.shortcuts import render
 from datahandle.models import Product,Category
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
@@ -32,6 +32,7 @@ User=get_user_model()
 # Create your views here.
 @api_view(['GET'])
 def info_view_cat(request,pk):
+    print('ayo')
     if request.method=='GET':
         try:
             obj=Category.objects.get(id=pk)
@@ -44,34 +45,30 @@ def info_view_cat(request,pk):
 
                 d=dict()
                 l=[]
+
                 for j in b:
                     d.update({'name':j.name ,
                               'desc':j.desc,
                               'image':j.image,
                               'price':j.price,
                               'in_stock':j.in_stock
-                              },)
+                              })
                     l.append(d)
-                return l
-            content={
+                return (json.dumps(l))
+            # content={
+            #
+            #     "name":list(produ),
+            # }
 
-                'name':produ,
 
-
-
-            }
 
 
         except:
             return Response({'error':'Doesnot exists'})
-        # queryset=Category.objects.all()
-        # result=[]
-        # for i in ram:
-        #     serializer = InfoSerializer(instance=i)
-        #     result.append(serializer.data)
-        serializer=CategorySerializer(instance=content)
 
-        return Response(serializer.data)
+        # serializer=CategorySerializer(instance=list(produ))
+        # print(type(serializer.data))
+        return Response(l)
 
 @api_view(['GET'])
 def info_view(request):

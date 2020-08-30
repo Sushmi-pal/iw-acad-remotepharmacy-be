@@ -83,7 +83,9 @@ class ProductsListView(ListAPIView):
     order_fields=['name','id']
 
 
-
+class CategoryRetrieveView(RetrieveAPIView):
+    serializer_class=CategorySerializer
+    queryset=Category.objects.all()
 
 
 class ProductRetrieveView(RetrieveAPIView):
