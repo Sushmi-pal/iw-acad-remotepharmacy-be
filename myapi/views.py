@@ -194,7 +194,7 @@ def product_update(request, pk):
         return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PATCH':
-        os.remove(product.image.path)
+
         serializer=ProductSerializer(product,data=request.data,partial=True)
         data = {}
         if serializer.is_valid():

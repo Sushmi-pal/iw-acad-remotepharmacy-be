@@ -35,18 +35,23 @@ def info_view_cat(request,pk):
             for i in catprod:
                 b.append(i)
 
+
             # def produ():
 
-            d=dict()
+
             l=[]
             for j in b:
+                d = dict()
                 d.update({'name':j.name ,
                             'desc':j.desc,
                             'image':j.image.url,
                             'price':j.price,
                             'in_stock':j.in_stock
                             },)
+
                 l.append(d)
+
+
 
                 # return l
 
