@@ -17,7 +17,7 @@ class Product(models.Model):
     desc = models.TextField()
     price = models.CharField(max_length=30)
     in_stock = models.CharField(max_length=30)
-    prod = models.ForeignKey(Category, on_delete=models.SET_NULL,null=True)
+    prod = models.ManyToManyField(Category)
 
     def __str__(self):
         return self.name

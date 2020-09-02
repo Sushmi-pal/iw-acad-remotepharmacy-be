@@ -180,12 +180,18 @@ def product_delete(request,pk):
 def product_update(request, pk):
     try:
         product = Product.objects.get(pk=pk)
+        print(product.prod.all())
+        # product.prod=Product.objects.filter(prod=Product.prod.id)
+        # print(product.prod.name)
     except Product.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
         os.remove(product.image.path)
+
+
         serializer=ProductSerializer(product,data=request.data)
+
         data = {}
         if serializer.is_valid():
             serializer.save()

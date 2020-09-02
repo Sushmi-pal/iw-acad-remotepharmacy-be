@@ -18,12 +18,17 @@ from django.urls import path, include
 from django.contrib.auth import views
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import ChangePasswordView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('myapi.urls')),
+    path('users/',include('users.urls')),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+
+    path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
+
 
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     # path('password_reset/', views.PasswordResetView.as_view(), name='password_reset'),

@@ -118,12 +118,28 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id','name','desc','image','price','in_stock','prod']
 
+
+
 class CategorySerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True, read_only=True)
+    products = ProductSerializer(many=True)
     # products = serializers.StringRelatedField(many=True,read_only=True)
+    # products=serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
     class Meta:
         model = Category
         fields = ['id','name','products']
+
+    def update(self, instance, validated_data):
+        import pdb;
+        pdb.set_trace()
+        tags_data = validated_data.pop('products')
+        for tag_data in tags_data:
+            tag_qs = Product.objects.filter(name__iexact=tag_data['name'])
+            if tag_qs.exists():
+                products = tag_qs.first()
+            else:
+                products = Product.objects.get(**tag_data)
+            instance.tag.add(products)
+        return category
 
 
 
